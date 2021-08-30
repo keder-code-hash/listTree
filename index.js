@@ -96,14 +96,14 @@ function toggleBlockGen(postid,filterName,postcount)
 
     var PostCount=document.createElement('span');
     PostCount.setAttribute('class','post-count');
-    PostCount.innerHTML=postcount;
+    PostCount.innerHTML="&nbsp&nbsp&nbsp[&nbsp"+postcount+"&nbsp]";
 
     //if the parent node is for year themn we have to add again a parentNode for months.
     //if the parent Node is for month then we have to add again a childNode of postaList
 
     togglingPNode.appendChild(spanToggleSign);
 
-    parentExpand.append(togglingPNode,PostFiltertType,postcount);
+    parentExpand.append(togglingPNode,PostFiltertType,PostCount);
 
     parentNode.append(parentExpand);
 
@@ -113,7 +113,7 @@ function toggleBlockGen(postid,filterName,postcount)
 window.onload=()=>{
     const parent=document.getElementById('testList');
 
-    const newBlock=toggleBlockGen('none',2019,19);
+    const newBlock=toggleBlockGen('none','2019','19');
     
 
     for(var count=0;count<obj[2019].length;count++)
