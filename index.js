@@ -23,36 +23,51 @@ function dataGen(months){
 var data=new dataGen(month);
 
 
-// function toggling(togglingElem,bolckIngElem)
-// {
-//     var toggling=document.getElementById('toggle');
-//     var postAct=document.getElementById('postdata');
-//     if(toggling.className=='toogle-closed'){
-//         toggling.setAttribute('class','toogle-open');
-//         toggling.firstChild.innerHTML="▼&nbsp";
-//         postAct.style.display='block';
-//     }
-//     else{
-//         toggling.setAttribute('class','toogle-closed');
-//         toggling.firstChild.innerHTML="►&nbsp";
-//         postAct.style.display='none';
-//     }
-// }
 function toggling(togglingNode,bolckIngElem)
 {
-    
     var toggling=document.getElementById('toggleId');
-    var postAct=document.getElementById('postAdd');
-    if(toggling.className=='toogle-closed'){
-        toggling.setAttribute('class','toogle-open');
-        toggling.firstChild.innerHTML="▼&nbsp";
-        postAct.style.display='block';
+    // console.log(togglingNode.parentNode.childNodes);
+    var parent=togglingNode.parentNode;
+    var children=parent.childNodes;
+    // console.log(children[3]);
+    
+    // this.len=children.length;
+    if(children.length <= 4){
+        console.log(children.length);
+        //triggered from posts
+        if(togglingNode.firstChild.className=='toogle-closed'){
+            togglingNode.firstChild.setAttribute('class','toogle-open');
+            togglingNode.firstChild.innerHTML="▼&nbsp";
+            children[3].style.display='block';
+        }
+        else{
+            togglingNode.firstChild.setAttribute('class','toogle-closed');
+            togglingNode.firstChild.innerHTML="►&nbsp";
+            children[3].style.display='none';
+            // postAct.style.display='none';
+        }
+
     }
-    else{
-        toggling.setAttribute('class','toogle-closed');
-        toggling.firstChild.innerHTML="►&nbsp";
-        postAct.style.display='none';
+    else {
+        if(togglingNode.firstChild.className=='toogle-closed'){
+            togglingNode.firstChild.setAttribute('class','toogle-open');
+            togglingNode.firstChild.innerHTML="▼&nbsp";
+            for(var bl=3;bl<children.length;bl++)
+            {
+                children[bl].style.display='block';
+            }
+        }
+        else{
+            togglingNode.firstChild.setAttribute('class','toogle-closed');
+            togglingNode.firstChild.innerHTML="►&nbsp";
+            for(var bl=3;bl<children.length;bl++)
+            {
+                children[bl].style.display='none';
+            }
+        }
     }
+
+    
 }
 
 function toggleBlockGen(postid,filterName,postcount)
@@ -63,15 +78,16 @@ function toggleBlockGen(postid,filterName,postcount)
     var parentExpand=document.createElement('li');
     parentExpand.setAttribute('class','parentExpanded');
 
+
     var togglingPNode=document.createElement('a');
     togglingPNode.setAttribute('class','toggle');
     togglingPNode.setAttribute('id','toggleId');
-    togglingPNode.setAttribute('onclick','toggling()');
+    togglingPNode.setAttribute('onclick','toggling(this)');
 
     var spanToggleSign=document.createElement('span');
-    spanToggleSign.setAttribute('class','toogle-closed');
-    spanToggleSign.innerHTML="►&nbsp";
-    // spanToggleSign.innerHTML="▼&nbsp";
+    spanToggleSign.setAttribute('class','toogle-open');
+    spanToggleSign.innerHTML="▼&nbsp";
+    
 
     var PostFiltertType=document.createElement('a');
     PostFiltertType.setAttribute('class','postLink filterType');
@@ -84,9 +100,6 @@ function toggleBlockGen(postid,filterName,postcount)
 
     //if the parent node is for year themn we have to add again a parentNode for months.
     //if the parent Node is for month then we have to add again a childNode of postaList
-    // var PostList=document.createElement('ul');
-    // PostList.setAttribute('class','posts');
-    // PostList.setAttribute('id','postAdd');
 
     togglingPNode.appendChild(spanToggleSign);
 
@@ -98,7 +111,6 @@ function toggleBlockGen(postid,filterName,postcount)
 }
 
 window.onload=()=>{
-    console.log(data.month);
     const parent=document.getElementById('testList');
 
     const newBlock=toggleBlockGen('none',2019,19);
