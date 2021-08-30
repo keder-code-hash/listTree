@@ -6,21 +6,26 @@ const obj=
         ],
     "2020":
         [
-            [1,2,3,4,5],[],[35],[],[],[12,55],[11,23,45],[],[],[11],[11,23],[111]
+            [1,2,3,4,5],[],[3,5,7],[],[],[12,55],[11,23,45],[],[],[11],[11,23],[111]
         ],
     "2021":
         [
-            [1,2,3,4,5],[],[35],[],[],[12,55],[11,23,45],[],[],[11],[11,23],[111]
+            [1,2,3,4,5],[],[35],[],[],[12,11,55],[11,23,45],[],[],[11],[11,23],[111]
         ]
 }
 const year_no=3;
 const month_no=12;
+const year=new Array(2019,2020,2021);
+const yearlyPostCount=new Array(15,17,16);
+
 const month=new Array("January","February","March","April","May","June","July","August","September","October","November","December");
 
-function dataGen(months){
+function dataGen(months,year){
     this.month=months;
+    this.year=year;
+    this.yearlyPostCount=yearlyPostCount;
 }
-var data=new dataGen(month);
+var data=new dataGen(month,year);
 
 
 function toggling(togglingNode,bolckIngElem)
@@ -111,36 +116,43 @@ function toggleBlockGen(postid,filterName,postcount)
 }
 
 window.onload=()=>{
+
+    console.log(obj)
     const parent=document.getElementById('testList');
 
-    const newBlock=toggleBlockGen('none','2019','19');
-    
-
-    for(var count=0;count<obj[2019].length;count++)
-    {
-        if(obj[2019][count].length>0)
-        {       
-            const newMonth=toggleBlockGen('none',data.month[count],obj[2019][count].length);
-
-            var monthUl=document.createElement('ul');
-            
-            for(let post=0;post<obj[2019][count].length;post++){
-
-                var liDom=document.createElement('li');
-                var atag=document.createElement('a');
-                atag.setAttribute('href','post:'+obj[2019][count][post]);
-                atag.innerHTML="post Title";
-                liDom.appendChild(atag);
-                monthUl.appendChild(liDom);
-
-            }
-
-            newMonth.firstChild.appendChild(monthUl);
-
-            newBlock.firstChild.append(newMonth);
-        }
+    // const newBlock=toggleBlockGen('none','none','none');
+    for(var yr=0;yr<data.year.length;yr++){
+        const yearBlock=toggleBlockGen('none',data.year[yr],data.yearlyPostCount[yr]);
         
+
+        for(var count=0;count<obj[data.year[yr]].length;count++)
+        {
+            if(obj[data.year[yr]][count].length>0)
+            {       
+                const newMonth=toggleBlockGen('none',data.month[count],obj[data.year[yr]][count].length);
+
+                var monthUl=document.createElement('ul');
+                
+                for(let post=0;post<obj[data.year[yr]][count].length;post++){
+
+                    var liDom=document.createElement('li');
+                    var atag=document.createElement('a');
+                    atag.setAttribute('href','post:'+obj[data.year[yr]][count][post]);
+                    atag.innerHTML="post Title";
+                    liDom.appendChild(atag);
+                    monthUl.appendChild(liDom);
+
+                }
+
+                newMonth.firstChild.appendChild(monthUl);
+
+                yearBlock.firstChild.append(newMonth);
+            }
+            
+        }
+
+        parent.appendChild(yearBlock);
+
     }
     
-    parent.appendChild(newBlock);
 }
